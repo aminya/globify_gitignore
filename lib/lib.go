@@ -6,6 +6,8 @@ import (
 	"path"
 	"regexp"
 	"strings"
+
+	"github.com/lithammer/dedent"
 )
 
 /**
@@ -152,7 +154,7 @@ func isPath(path string, extended bool) bool {
  * @param {Optional string} gitIgnoreDirectory The directory of gitignore
  * @returns {[string] | [string, string]} The equivalent glob
  *
- * NOTE: it expects a **git-ignore valid non-comment** gitignore entry with no surrounding whitespace.
+ * NOTE: it expects a **valid** non-comment git-ignore entry  with no surrounding whitespace.
  * NOTE: Gitignore expects that paths are posixified. So, if you are passing Windows path to this function directly without poxifying them (using {PosixifyPath}), you are passing invalid gitignore entry, and so you will get invalid Glob pattern.
  */
 func GlobifyGitIgnoreEntry(
@@ -249,4 +251,54 @@ func GlobifyGitIgnoreEntry(
 	} else {
 		return []string{entry}
 	}
+}
+
+/**
+ * Globify the content of a `.gitignore` file
+ *
+ * @param {string} gitIgnoreContent The content of the gitignore file
+ * @param {Optional string} gitIgnoreDirectory The directory of gitignore
+ * @returns {[]string} An array of glob patterns
+ */
+func GlobifyGitIgnore(
+	gitIgnoreContent string,
+	gitIgnoreDirectory ...string,
+) []string {
+	gitIgnoreContentDedented := dedent.Dedent(gitIgnoreContent)
+	gitIgnoreContentLines := strings.Split(gitIgnoreContentDedented, "\n")
+
+	gitIgnoreEntries := []string{}
+	for iLine := range gitIgnoreContentLines {
+		entry := gitIgnoreContentLines[iLine]
+		// Exclude empty lines and comments (filtering).
+		if !(IsEmptyLine(entry) || IsGitIgnoreComment(entry)) {
+			// Remove surrounding whitespace
+			entryTrimmed := TrimWhiteSpace(entry)
+
+			// out
+			gitIgnoreEntries = append(gitIgnoreEntries, entryTrimmed)
+		}
+	}
+	gitIgnoreEntriesNum := len(gitIgnoreEntries)
+
+	globEntries := []string{} // TODO reserve at least gitIgnoreEntriesNum?
+
+	for iEntry := 0; iEntry < gitIgnoreEntriesNum; iEntry++ {
+
+		globifyOutput := GlobifyGitIgnoreEntry(gitIgnoreEntries[iEntry], gitIgnoreDirectory...)
+
+		// Check if `GlobifyGitIgnoreEntry` returns a pair or a string
+		if len(globifyOutput) == 1 {
+			// string
+			globEntries = append(globEntries, globifyOutput[0]) // Place the entry in the output array
+		} else {
+			// pair
+			globEntries = append(globEntries,
+				globifyOutput[0], // Place the entry in the output array
+				globifyOutput[1]) // Push the additional entry
+		}
+	}
+
+	// TODO unique in the end?
+	return globEntries
 }

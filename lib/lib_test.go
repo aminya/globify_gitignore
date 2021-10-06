@@ -37,4 +37,16 @@ func TestAll(t *testing.T) {
 	assert.Equal(t, trimLeadingWhiteSpace("aa"), "aa")
 	assert.Equal(t, trimLeadingWhiteSpace("  aa"), "aa")
 	assert.Equal(t, trimLeadingWhiteSpace(" \\ aa"), "\\ aa")
+
+	assert.Equal(t, trimWhiteSpace("aa  "), "aa")
+	assert.Equal(t, trimWhiteSpace("aa \\ "), "aa  ")
+	assert.Equal(t, trimWhiteSpace("aa \\  "), "aa   ")
+	assert.Equal(t, trimWhiteSpace("aa"), "aa")
+	assert.Equal(t, trimWhiteSpace("  aa"), "aa")
+	assert.Equal(t, trimWhiteSpace(" \\ aa"), "\\ aa")
+	assert.Equal(t, trimWhiteSpace("  aa  "), "aa")
+	assert.Equal(t, trimWhiteSpace("  aa \\ "), "aa  ")
+	assert.Equal(t, trimWhiteSpace("  aa \\  "), "aa   ")
+	assert.Equal(t, trimWhiteSpace("  aa"), "aa")
+	assert.Equal(t, trimWhiteSpace("  \\ aa"), "\\ aa")
 }

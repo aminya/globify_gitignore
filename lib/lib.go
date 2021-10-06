@@ -66,3 +66,8 @@ func trimLeadingWhiteSpace(str string) string {
 	leading_whitespace := regexp.MustCompile(`^\s+`)
 	return leading_whitespace.ReplaceAllString(str, "")
 }
+
+/** Remove whitespace from a gitignore entry */
+func trimWhiteSpace(str string) string {
+	return trimLeadingWhiteSpace(trimTrailingWhitespace(str))
+}

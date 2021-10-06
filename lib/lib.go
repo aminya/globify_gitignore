@@ -71,3 +71,13 @@ func trimLeadingWhiteSpace(str string) string {
 func trimWhiteSpace(str string) string {
 	return trimLeadingWhiteSpace(trimTrailingWhitespace(str))
 }
+
+/** Enum that specifies the path type. 0 for file, 1 for directory, 2 for others */
+type PathType uint
+
+const (
+	PathTypeFile      PathType = 0
+	PathTypeDirectory PathType = 1
+	PathTypeOther     PathType = 2
+)
+

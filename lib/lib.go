@@ -111,7 +111,8 @@ func GetPathType(filepath string) PathType {
 	}
 }
 
-func isInvalidPath(path string, extended bool) bool {
+/// Is this string an invalid path?
+func IsInvalidPath(path string, extended bool) bool {
 	/*
 	 * Go port of
 	 * is-invalid-path <https://github.com/jonschlinkert/is-invalid-path>
@@ -145,8 +146,9 @@ func isInvalidPath(path string, extended bool) bool {
 	return invalidFileRegex.MatchString(path)
 }
 
-func isPath(path string, extended bool) bool {
-	return !isInvalidPath(path, extended)
+/// Is this string a valid path
+func IsPath(path string, extended bool) bool {
+	return !IsInvalidPath(path, extended)
 }
 
 /// Unique array
@@ -206,7 +208,7 @@ func GlobifyGitIgnoreEntry(
 		entry = entry[1:]
 
 		// Check if it is a directory or file
-		if isPath(entry, true) {
+		if IsPath(entry, true) {
 			if hasGitIgnoreDirectory {
 				pathType = GetPathType(path.Join(gitIgnoreDirectory[0], entry))
 			} else {
@@ -228,7 +230,7 @@ func GlobifyGitIgnoreEntry(
 		} else {
 			// has `/` in the middle so it is a relative path
 			// Check if it is a directory or file
-			if isPath(entry, true) {
+			if IsPath(entry, true) {
 				if hasGitIgnoreDirectory {
 					pathType = GetPathType(path.Join(gitIgnoreDirectory[0], entry))
 				} else {

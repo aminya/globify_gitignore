@@ -37,7 +37,7 @@ func GlobifyDirectory(givenDirectory string) string {
 	return RemoveEndingSlash(PosixifyPath(givenDirectory)) + "/**"
 }
 
-func isEmptyLine(str string) bool {
+func IsEmptyLine(str string) bool {
 	whiteSpaceRegex := regexp.MustCompile(`^\s*$`)
 	return whiteSpaceRegex.MatchString(str)
 }
@@ -46,12 +46,12 @@ func isEmptyLine(str string) bool {
  * A line starting with # serves as a comment. Put a backslash ("") in front of the first hash for patterns that begin
  * with a hash.
  */
-func isGitIgnoreComment(pattern string) bool {
+func IsGitIgnoreComment(pattern string) bool {
 	return pattern[0] == '#'
 }
 
 /** Trailing spaces should be removed unless they are quoted with backslash ("\ "). */
-func trimTrailingWhitespace(str string) string {
+func TrimTrailingWhitespace(str string) string {
 	escaped_trailing_whitespace := regexp.MustCompile(`\\\s+$`)
 	if !escaped_trailing_whitespace.MatchString(str) {
 		trailing_whitespace := regexp.MustCompile(`\s+$`)
@@ -65,14 +65,14 @@ func trimTrailingWhitespace(str string) string {
 }
 
 /** Remove leading whitespace */
-func trimLeadingWhiteSpace(str string) string {
+func TrimLeadingWhiteSpace(str string) string {
 	leading_whitespace := regexp.MustCompile(`^\s+`)
 	return leading_whitespace.ReplaceAllString(str, "")
 }
 
 /** Remove whitespace from a gitignore entry */
-func trimWhiteSpace(str string) string {
-	return trimLeadingWhiteSpace(trimTrailingWhitespace(str))
+func TrimWhiteSpace(str string) string {
+	return TrimLeadingWhiteSpace(TrimTrailingWhitespace(str))
 }
 
 /** Enum that specifies the path type. 0 for file, 1 for directory, 2 for others */
@@ -90,7 +90,7 @@ const (
  * @param {string} givenPath Absolute path
  * @returns {PathType}
  */
-func getPathType(filepath string) PathType {
+func GetPathType(filepath string) PathType {
 	pathStat, err := os.Lstat(filepath)
 	if err != nil {
 		return PathTypeOther
@@ -188,9 +188,9 @@ func GlobifyGitIgnoreEntry(
 		// Check if it is a directory or file
 		if isPath(entry, true) {
 			if hasGitIgnoreDirectory {
-				pathType = getPathType(path.Join(gitIgnoreDirectory[0], entry))
+				pathType = GetPathType(path.Join(gitIgnoreDirectory[0], entry))
 			} else {
-				pathType = getPathType(entry)
+				pathType = GetPathType(entry)
 			}
 		}
 	} else {
@@ -210,9 +210,9 @@ func GlobifyGitIgnoreEntry(
 			// Check if it is a directory or file
 			if isPath(entry, true) {
 				if hasGitIgnoreDirectory {
-					pathType = getPathType(path.Join(gitIgnoreDirectory[0], entry))
+					pathType = GetPathType(path.Join(gitIgnoreDirectory[0], entry))
 				} else {
-					pathType = getPathType(entry)
+					pathType = GetPathType(entry)
 				}
 			}
 		}

@@ -1,0 +1,7 @@
+# Build/Dependencies Folder
+bin/
+vendor/
+*.exe
+
+# log files
+*.log

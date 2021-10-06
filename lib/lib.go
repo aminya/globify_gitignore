@@ -46,3 +46,17 @@ func isEmptyLine(str string) bool {
 func isGitIgnoreComment(pattern string) bool {
 	return pattern[0] == '#'
 }
+
+/** Trailing spaces should be removed unless they are quoted with backslash ("\ "). */
+func trimTrailingWhitespace(str string) string {
+	escaped_trailing_whitespace := regexp.MustCompile(`\\\s+$`)
+	if !escaped_trailing_whitespace.MatchString(str) {
+		trailing_whitespace := regexp.MustCompile(`\s+$`)
+		// No escaped trailing whitespace, remove
+		return trailing_whitespace.ReplaceAllString(str, "")
+	} else {
+		// Trailing whitespace detected, remove only the backslash
+		backslash := regexp.MustCompile(`\\(\s+)$`)
+		return backslash.ReplaceAllString(str, "$1")
+	}
+}

@@ -28,4 +28,9 @@ func TestAll(t *testing.T) {
 	assert.Equal(t, isGitIgnoreComment(" #"), false)
 	assert.Equal(t, isGitIgnoreComment(" "), false)
 	assert.Equal(t, isGitIgnoreComment("aa"), false)
+
+	assert.Equal(t, trimTrailingWhitespace("aa  "), "aa")
+	assert.Equal(t, trimTrailingWhitespace("aa \\ "), "aa  ")
+	assert.Equal(t, trimTrailingWhitespace("aa \\  "), "aa   ")
+	assert.Equal(t, trimTrailingWhitespace("aa"), "aa")
 }

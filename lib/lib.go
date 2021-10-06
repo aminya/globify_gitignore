@@ -302,3 +302,18 @@ func GlobifyGitIgnore(
 	// TODO unique in the end?
 	return globEntries
 }
+
+/**
+ * Parse and globifies the `.gitingore` file that exists in a directory
+ *
+ * @param {string} gitIgnoreDirectory The given directory that has the `.gitignore` file
+ * @returns {([]string, error)} An array of glob patterns or an error if the file did not exist
+ */
+func GlobifyGitIgnoreFile(gitIgnoreDirectory string) ([]string, error) {
+	gitignorefile := path.Join(gitIgnoreDirectory, ".gitignore")
+	gitignoreContent, err := os.ReadFile(gitignorefile)
+	if err != nil {
+		return nil, err
+	}
+	return GlobifyGitIgnore(string(gitignoreContent), gitIgnoreDirectory), nil
+}

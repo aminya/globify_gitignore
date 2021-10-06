@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"log"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -344,4 +345,12 @@ pnpm-debug.log
 		`!**/*.tgz/**`,
 	})
 
+}
+
+func TestGlobifyGitIgnoreFile(t *testing.T) {
+	globs, err := GlobifyGitIgnoreFile("./fixtures")
+	if err != nil {
+		log.Fatal(err)
+	}
+	assert.Equal(t, globs, []string{"!./fixtures/**/.DS_Store", "!./fixtures/**/.DS_Store/**", "!./fixtures/**/Thumbs.db", "!./fixtures/**/Thumbs.db/**", "!./fixtures/**/node_modules", "!./fixtures/**/node_modules/**", "!./fixtures/**/package-lock.json", "!./fixtures/**/package-lock.json/**", "!./fixtures/**/*.tsbuildinfo", "!./fixtures/**/*.tsbuildinfo/**", "!./fixtures/**/dist", "!./fixtures/**/dist/**", "!./fixtures/**/*.dll", "!./fixtures/**/*.dll/**", "!./fixtures/**/*.exe", "!./fixtures/**/*.exe/**", "!./fixtures/**/*.cmd", "!./fixtures/**/*.cmd/**", "!./fixtures/**/*.pdb", "!./fixtures/**/*.pdb/**", "!./fixtures/**/*.suo", "!./fixtures/**/*.suo/**", "!./fixtures/**/*.js", "!./fixtures/**/*.js/**", "!./fixtures/**/*.user", "!./fixtures/**/*.user/**", "!./fixtures/**/*.cache", "!./fixtures/**/*.cache/**", "!./fixtures/**/*.cs", "!./fixtures/**/*.cs/**", "!./fixtures/**/*.sln", "!./fixtures/**/*.sln/**", "!./fixtures/**/*.csproj", "!./fixtures/**/*.csproj/**", "!./fixtures/**/*.map", "!./fixtures/**/*.map/**", "!./fixtures/**/*.swp", "!./fixtures/**/*.swp/**", "!./fixtures/**/*.code-workspace", "!./fixtures/**/*.code-workspace/**", "!./fixtures/**/*.log", "!./fixtures/**/*.log/**", "!./fixtures/**/.DS_Store", "!./fixtures/**/.DS_Store/**", "!./fixtures/**/_Resharper.DefinitelyTyped", "!./fixtures/**/_Resharper.DefinitelyTyped/**", "!./fixtures/**/bin", "!./fixtures/**/bin/**", "!./fixtures/**/obj", "!./fixtures/**/obj/**", "!./fixtures/**/Properties", "!./fixtures/**/Properties/**", "!./fixtures/**/*~", "!./fixtures/**/*~/**", "!./fixtures/_infrastructure/tests/build", "!./fixtures/_infrastructure/tests/build/**", "!./fixtures/**/.idea", "!./fixtures/**/.idea/**", "!./fixtures/**/*.iml", "!./fixtures/**/*.iml/**", "!./fixtures/**/*.js.map", "!./fixtures/**/*.js.map/**", "./fixtures/*.js/**", "./fixtures/scripts/new-package.js", "./fixtures/scripts/new-package.js/**", "./fixtures/scripts/not-needed.js", "./fixtures/scripts/not-needed.js/**", "./fixtures/scripts/lint.js", "./fixtures/scripts/lint.js/**", "!./fixtures/**/node_modules", "!./fixtures/**/node_modules/**", "!./fixtures/**/package-lock.json", "!./fixtures/**/package-lock.json/**", "!./fixtures/**/npm-debug.log", "!./fixtures/**/npm-debug.log/**", "!./fixtures/**/.sublimets", "!./fixtures/**/.sublimets/**", "!./fixtures/.settings/launch.json", "!./fixtures/.settings/launch.json/**", "!./fixtures/**/.vs", "!./fixtures/**/.vs/**", "!./fixtures/**/.vscode", "!./fixtures/**/.vscode/**", "!./fixtures/**/.history", "!./fixtures/**/.history/**", "!./fixtures/**/yarn.lock", "!./fixtures/**/yarn.lock/**", "!./fixtures/**/shrinkwrap.yaml", "!./fixtures/**/shrinkwrap.yaml/**", "!./fixtures/**/pnpm-lock.yaml", "!./fixtures/**/pnpm-lock.yaml/**", "!./fixtures/**/pnpm-debug.log", "!./fixtures/**/pnpm-debug.log/**", "!./fixtures/**/*.tgz", "!./fixtures/**/*.tgz/**"})
 }

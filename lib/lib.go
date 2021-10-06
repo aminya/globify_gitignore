@@ -1,6 +1,8 @@
 package lib
 
 import (
+	"io/fs"
+	"os"
 	"regexp"
 	"strings"
 )
@@ -104,4 +106,42 @@ func getPathType(filepath string) PathType {
 	default:
 		return PathTypeOther
 	}
+}
+
+func isInvalidPath(path string, extended bool) bool {
+	/*
+	 * Go port of
+	 * is-invalid-path <https://github.com/jonschlinkert/is-invalid-path>
+	 *
+	 * Copyright (c) 2015-2018, Jon Schlinkert.
+	 * Released under the MIT License.
+	 */
+
+	if path == "" {
+		return true
+	}
+
+	// https://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx#maxpath
+	MAX_PATH := 260
+	if extended {
+		MAX_PATH = 32767
+	}
+
+	if len(path) > (MAX_PATH - 12) {
+		return true
+	}
+
+	// TODO
+	// const rootPath = path.parse(path).root
+	// if rootPath {
+	// 	path = path.slice(rootPath.length)
+	// }
+
+	// https://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx#Naming_Conventions
+	invalidFileRegex := regexp.MustCompile(`[<>:"|?*]`)
+	return invalidFileRegex.MatchString(path)
+}
+
+func isPath(path string, extended bool) bool {
+	return !isInvalidPath(path, extended)
 }

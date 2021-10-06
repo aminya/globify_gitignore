@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"regexp"
 	"strings"
 )
 
@@ -31,4 +32,9 @@ func PosixifyPathNormalized(givenPath string) string {
  */
 func GlobifyDirectory(givenDirectory string) string {
 	return PosixifyPathNormalized(givenDirectory) + "/**"
+}
+
+func isWhitespace(str string) bool {
+	whiteSpaceRegex := regexp.MustCompile(`^\s*$`)
+	return whiteSpaceRegex.MatchString(str)
 }

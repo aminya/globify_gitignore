@@ -1,25 +1,15 @@
 package lib
 
 import (
-	"flag"
-	"fmt"
-
-	"github.com/aminya/globify-gitignore/version"
+	"strings"
 )
 
-func main() {
-
-	versionFlag := flag.Bool("version", false, "Version")
-	flag.Parse()
-
-	if *versionFlag {
-		fmt.Println("Build Date:", version.BuildDate)
-		fmt.Println("Git Commit:", version.GitCommit)
-		fmt.Println("Version:", version.Version)
-		fmt.Println("Go Version:", version.GoVersion)
-		fmt.Println("OS / Arch:", version.OsArch)
-		return
-	}
-	fmt.Println("Hello.")
-
+/**
+ * Converts given path to Posix (replacing \ with /)
+ *
+ * @param {string} givenPath Path to convert
+ * @returns {string} Converted filepath
+ */
+func PosixifyPath(givenPath string) string {
+	return strings.ReplaceAll(givenPath, "\\", "/")
 }

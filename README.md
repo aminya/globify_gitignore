@@ -2,17 +2,6 @@
 
 Convert Gitignore to Glob patterns
 
-## Getting started
+A Go port of https://github.com/aminya/globify-gitignore
 
-This project requires Go to be installed. On OS X with Homebrew you can just run `brew install go`.
-
-Running it then should be as simple as:
-
-```console
-$ make
-$ ./bin/globify-gitignore
-```
-
-### Testing
-
-``make test``
+This is a work in progress.

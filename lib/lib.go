@@ -149,6 +149,24 @@ func isPath(path string, extended bool) bool {
 	return !isInvalidPath(path, extended)
 }
 
+/// Unique array
+func unique(arr []string) []string {
+	occurred := map[string]bool{}
+	result := []string{}
+	for elm := range arr {
+		// check if already the mapped
+		// variable is set to true or not
+		if !occurred[arr[elm]] {
+			occurred[arr[elm]] = true
+
+			// Append to result slice.
+			result = append(result, arr[elm])
+		}
+	}
+
+	return result
+}
+
 /**
  * @param {string} gitIgnoreEntry One git ignore entry
  * @param {Optional string} gitIgnoreDirectory The directory of gitignore
@@ -299,8 +317,8 @@ func GlobifyGitIgnore(
 		}
 	}
 
-	// TODO unique in the end?
-	return globEntries
+	// remove duplicates in the end
+	return unique(globEntries)
 }
 
 /**

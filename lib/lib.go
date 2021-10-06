@@ -60,3 +60,9 @@ func trimTrailingWhitespace(str string) string {
 		return backslash.ReplaceAllString(str, "$1")
 	}
 }
+
+/** Remove leading whitespace */
+func trimLeadingWhiteSpace(str string) string {
+	leading_whitespace := regexp.MustCompile(`^\s+`)
+	return leading_whitespace.ReplaceAllString(str, "")
+}

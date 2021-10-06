@@ -33,4 +33,8 @@ func TestAll(t *testing.T) {
 	assert.Equal(t, trimTrailingWhitespace("aa \\ "), "aa  ")
 	assert.Equal(t, trimTrailingWhitespace("aa \\  "), "aa   ")
 	assert.Equal(t, trimTrailingWhitespace("aa"), "aa")
+
+	assert.Equal(t, trimLeadingWhiteSpace("aa"), "aa")
+	assert.Equal(t, trimLeadingWhiteSpace("  aa"), "aa")
+	assert.Equal(t, trimLeadingWhiteSpace(" \\ aa"), "\\ aa")
 }

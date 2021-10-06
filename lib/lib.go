@@ -81,3 +81,27 @@ const (
 	PathTypeOther     PathType = 2
 )
 
+/**
+ * Get the type of the given path
+ *
+ * @param {string} givenPath Absolute path
+ * @returns {PathType}
+ */
+func getPathType(filepath string) PathType {
+	pathStat, err := os.Lstat(filepath)
+	if err != nil {
+		return PathTypeOther
+	}
+	switch mode := pathStat.Mode(); {
+	case mode.IsRegular():
+		return PathTypeFile
+	case mode.IsDir():
+		return PathTypeDirectory
+	case mode&fs.ModeSymlink != 0:
+		return PathTypeOther
+	case mode&fs.ModeNamedPipe != 0:
+		return PathTypeOther
+	default:
+		return PathTypeOther
+	}
+}

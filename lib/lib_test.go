@@ -80,3 +80,176 @@ func TestGlobifyGitIgnoreEntry(t *testing.T) {
 	assert.Equal(t, GlobifyGitIgnoreEntry("C:/abs_dir/abs_dir_or_file"), []string{"!C:/abs_dir/abs_dir_or_file", "!C:/abs_dir/abs_dir_or_file/**"})
 	assert.Equal(t, GlobifyGitIgnoreEntry("C:/abs_dir/abs_dir/"), []string{"!C:/abs_dir/abs_dir/", "!C:/abs_dir/abs_dir//**"})
 }
+
+func TestGlobifyGitIgnore(t *testing.T) {
+
+	gitignoreContent := `# OS metadata
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules
+package-lock.json
+
+# TypeScript
+*.tsbuildinfo
+
+# Build directories
+dist
+
+*.dll
+*.exe
+*.cmd
+*.pdb
+*.suo
+*.js
+*.user
+*.cache
+*.cs
+*.sln
+*.csproj
+*.map
+*.swp
+*.code-workspace
+*.log
+.DS_Store
+
+_Resharper.DefinitelyTyped
+bin
+obj
+Properties
+
+# VIM backup files
+*~
+
+# test folder
+_infrastructure/tests/build
+
+# IntelliJ based IDEs
+.idea
+*.iml
+
+*.js.map
+!*.js/
+!scripts/new-package.js
+!scripts/not-needed.js
+!scripts/lint.js
+
+# npm
+node_modules
+package-lock.json
+npm-debug.log
+
+# Sublime
+.sublimets
+
+# Visual Studio Code
+.settings/launch.json
+.vs
+.vscode
+.history
+
+# yarn
+yarn.lock
+
+# pnpm
+shrinkwrap.yaml
+pnpm-lock.yaml
+pnpm-debug.log
+
+# Output of 'npm pack'
+*.tgz
+`
+	assert.Equal(t, GlobifyGitIgnore(gitignoreContent, "./fixtures"), []string{
+		`!./fixtures/**/.DS_Store`,
+		`!./fixtures/**/Thumbs.db`,
+		`!./fixtures/**/node_modules`,
+		`!./fixtures/**/package-lock.json`,
+		`!./fixtures/**/*.tsbuildinfo`,
+		`!./fixtures/**/dist`,
+		`!./fixtures/**/*.dll`,
+		`!./fixtures/**/*.exe`,
+		`!./fixtures/**/*.cmd`,
+		`!./fixtures/**/*.pdb`,
+		`!./fixtures/**/*.suo`,
+		`!./fixtures/**/*.js`,
+		`!./fixtures/**/*.user`,
+		`!./fixtures/**/*.cache`,
+		`!./fixtures/**/*.cs`,
+		`!./fixtures/**/*.sln`,
+		`!./fixtures/**/*.csproj`,
+		`!./fixtures/**/*.map`,
+		`!./fixtures/**/*.swp`,
+		`!./fixtures/**/*.code-workspace`,
+		`!./fixtures/**/*.log`,
+		`!./fixtures/**/_Resharper.DefinitelyTyped`,
+		`!./fixtures/**/bin`,
+		`!./fixtures/**/obj`,
+		`!./fixtures/**/Properties`,
+		`!./fixtures/**/*~`,
+		`!./fixtures/_infrastructure/tests/build`,
+		`!./fixtures/**/.idea`,
+		`!./fixtures/**/*.iml`,
+		`!./fixtures/**/*.js.map`,
+		`./fixtures/*.js/**`,
+		`./fixtures/scripts/new-package.js`,
+		`./fixtures/scripts/not-needed.js`,
+		`./fixtures/scripts/lint.js`,
+		`!./fixtures/**/npm-debug.log`,
+		`!./fixtures/**/.sublimets`,
+		`!./fixtures/.settings/launch.json`,
+		`!./fixtures/**/.vs`,
+		`!./fixtures/**/.vscode`,
+		`!./fixtures/**/.history`,
+		`!./fixtures/**/yarn.lock`,
+		`!./fixtures/**/shrinkwrap.yaml`,
+		`!./fixtures/**/pnpm-lock.yaml`,
+		`!./fixtures/**/pnpm-debug.log`,
+		`!./fixtures/**/*.tgz`,
+		`!./fixtures/**/.DS_Store/**`,
+		`!./fixtures/**/Thumbs.db/**`,
+		`!./fixtures/**/node_modules/**`,
+		`!./fixtures/**/package-lock.json/**`,
+		`!./fixtures/**/*.tsbuildinfo/**`,
+		`!./fixtures/**/dist/**`,
+		`!./fixtures/**/*.dll/**`,
+		`!./fixtures/**/*.exe/**`,
+		`!./fixtures/**/*.cmd/**`,
+		`!./fixtures/**/*.pdb/**`,
+		`!./fixtures/**/*.suo/**`,
+		`!./fixtures/**/*.js/**`,
+		`!./fixtures/**/*.user/**`,
+		`!./fixtures/**/*.cache/**`,
+		`!./fixtures/**/*.cs/**`,
+		`!./fixtures/**/*.sln/**`,
+		`!./fixtures/**/*.csproj/**`,
+		`!./fixtures/**/*.map/**`,
+		`!./fixtures/**/*.swp/**`,
+		`!./fixtures/**/*.code-workspace/**`,
+		`!./fixtures/**/*.log/**`,
+		`!./fixtures/**/_Resharper.DefinitelyTyped/**`,
+		`!./fixtures/**/bin/**`,
+		`!./fixtures/**/obj/**`,
+		`!./fixtures/**/Properties/**`,
+		`!./fixtures/**/*~/**`,
+		`!./fixtures/_infrastructure/tests/build/**`,
+		`!./fixtures/**/.idea/**`,
+		`!./fixtures/**/*.iml/**`,
+		`!./fixtures/**/*.js.map/**`,
+		`./fixtures/scripts/new-package.js/**`,
+		`./fixtures/scripts/not-needed.js/**`,
+		`./fixtures/scripts/lint.js/**`,
+		`!./fixtures/**/npm-debug.log/**`,
+		`!./fixtures/**/.sublimets/**`,
+		`!./fixtures/.settings/launch.json/**`,
+		`!./fixtures/**/.vs/**`,
+		`!./fixtures/**/.vscode/**`,
+		`!./fixtures/**/.history/**`,
+		`!./fixtures/**/yarn.lock/**`,
+		`!./fixtures/**/shrinkwrap.yaml/**`,
+		`!./fixtures/**/pnpm-lock.yaml/**`,
+		`!./fixtures/**/pnpm-debug.log/**`,
+		`!./fixtures/**/*.tgz/**`,
+	})
+
+}

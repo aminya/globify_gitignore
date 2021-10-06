@@ -50,3 +50,19 @@ func TestAll(t *testing.T) {
 	assert.Equal(t, trimWhiteSpace("  aa"), "aa")
 	assert.Equal(t, trimWhiteSpace("  \\ aa"), "\\ aa")
 }
+
+func TestGlobifyGitIgnoreEntry(t *testing.T) {
+	// Files or directories
+	assert.Equal(t, GlobifyGitIgnoreEntry("dir_or_file"), []string{"!**/dir_or_file", "!**/dir_or_file/**"})
+
+	// Relative dir
+	assert.Equal(t, GlobifyGitIgnoreEntry("dir/"), []string{"!dir/**"})
+
+	// Absolute paths
+	assert.Equal(t, GlobifyGitIgnoreEntry("/abs_dir_or_file"), []string{"!abs_dir_or_file", "!abs_dir_or_file/**"})
+	assert.Equal(t, GlobifyGitIgnoreEntry("/abs_dir/abs_dir_or_file"), []string{"!abs_dir/abs_dir_or_file", "!abs_dir/abs_dir_or_file/**"})
+	assert.Equal(t, GlobifyGitIgnoreEntry("/abs_dir/abs_dir/"), []string{"!abs_dir/abs_dir/", "!abs_dir/abs_dir//**"})
+	assert.Equal(t, GlobifyGitIgnoreEntry("C:/abs_dir_or_file"), []string{"!C:/abs_dir_or_file", "!C:/abs_dir_or_file/**"})
+	assert.Equal(t, GlobifyGitIgnoreEntry("C:/abs_dir/abs_dir_or_file"), []string{"!C:/abs_dir/abs_dir_or_file", "!C:/abs_dir/abs_dir_or_file/**"})
+	assert.Equal(t, GlobifyGitIgnoreEntry("C:/abs_dir/abs_dir/"), []string{"!C:/abs_dir/abs_dir/", "!C:/abs_dir/abs_dir//**"})
+}

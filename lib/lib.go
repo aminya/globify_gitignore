@@ -148,10 +148,12 @@ func isPath(path string, extended bool) bool {
 }
 
 /**
- * @param {string} gitIgnoreEntry One git ignore entry (it expects a valid non-comment gitignore entry with no
- *   surrounding whitespace)
+ * @param {string} gitIgnoreEntry One git ignore entry
  * @param {Optional string} gitIgnoreDirectory The directory of gitignore
  * @returns {[string] | [string, string]} The equivalent glob
+ *
+ * NOTE: it expects a **git-ignore valid non-comment** gitignore entry with no surrounding whitespace.
+ * NOTE: Gitignore expects that paths are posixified. So, if you are passing Windows path to this function directly without poxifying them (using {PosixifyPath}), you are passing invalid gitignore entry, and so you will get invalid Glob pattern.
  */
 func GlobifyGitIgnoreEntry(
 	gitIgnoreEntry string,

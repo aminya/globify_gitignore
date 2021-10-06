@@ -16,13 +16,13 @@ func PosixifyPath(givenPath string) string {
 }
 
 /**
- * Converts given path to Posix (replacing \ with /) and removing ending slashes
+ * Removes the ending slash from the given path
  *
  * @param {string} givenPath Path to convert
  * @returns {string} Converted filepath
  */
-func PosixifyPathNormalized(givenPath string) string {
-	return strings.TrimRight(PosixifyPath(givenPath), "/")
+func RemoveEndingSlash(givenPath string) string {
+	return strings.TrimRight(givenPath, "/")
 }
 
 /**
@@ -31,7 +31,7 @@ func PosixifyPathNormalized(givenPath string) string {
  * @param {string} givenDirectory The given directory to be globified
  */
 func GlobifyDirectory(givenDirectory string) string {
-	return PosixifyPathNormalized(givenDirectory) + "/**"
+	return RemoveEndingSlash(PosixifyPath(givenDirectory)) + "/**"
 }
 
 func isWhitespace(str string) bool {

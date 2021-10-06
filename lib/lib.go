@@ -24,3 +24,11 @@ func PosixifyPathNormalized(givenPath string) string {
 	return strings.TrimRight(PosixifyPath(givenPath), "/")
 }
 
+/**
+ * Globifies a directory
+ *
+ * @param {string} givenDirectory The given directory to be globified
+ */
+func GlobifyDirectory(givenDirectory string) string {
+	return PosixifyPathNormalized(givenDirectory) + "/**"
+}

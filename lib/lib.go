@@ -317,3 +317,22 @@ func GlobifyGitIgnoreFile(gitIgnoreDirectory string) ([]string, error) {
 	}
 	return GlobifyGitIgnore(string(gitignoreContent), gitIgnoreDirectory), nil
 }
+
+/**
+ * Globify a path
+ * @param {string} givenPath The given path to be globified
+ * @param {Optional string} givenDirectory [process.cwd()] The cwd to use to resolve relative path names
+ * @returns {Promise<string | [string, string]>} The glob path or the file path itself
+ */
+func GlobifyPath(
+	givenPath string,
+	givenDirectory ...string,
+) []string {
+	if len(givenDirectory) == 0 {
+		currentWorkingDirectory, err := os.Getwd()
+		if err == nil {
+			givenDirectory[0] = currentWorkingDirectory
+		}
+	}
+	return GlobifyGitIgnoreEntry(PosixifyPath(givenPath), givenDirectory...)
+}

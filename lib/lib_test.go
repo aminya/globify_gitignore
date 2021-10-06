@@ -23,4 +23,9 @@ func TestAll(t *testing.T) {
 	assert.Equal(t, isEmptyLine(" \n"), true)
 	assert.Equal(t, isEmptyLine(" #"), false)
 
+	assert.Equal(t, isGitIgnoreComment("# aaa"), true)
+	assert.Equal(t, isGitIgnoreComment("#aa"), true)
+	assert.Equal(t, isGitIgnoreComment(" #"), false)
+	assert.Equal(t, isGitIgnoreComment(" "), false)
+	assert.Equal(t, isGitIgnoreComment("aa"), false)
 }

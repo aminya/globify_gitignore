@@ -34,7 +34,15 @@ func GlobifyDirectory(givenDirectory string) string {
 	return RemoveEndingSlash(PosixifyPath(givenDirectory)) + "/**"
 }
 
-func isWhitespace(str string) bool {
+func isEmptyLine(str string) bool {
 	whiteSpaceRegex := regexp.MustCompile(`^\s*$`)
 	return whiteSpaceRegex.MatchString(str)
+}
+
+/**
+ * A line starting with # serves as a comment. Put a backslash ("") in front of the first hash for patterns that begin
+ * with a hash.
+ */
+func isGitIgnoreComment(pattern string) bool {
+	return pattern[0] == '#'
 }
